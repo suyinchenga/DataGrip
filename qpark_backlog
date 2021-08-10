@@ -1,0 +1,12 @@
+select * from backlog where outline like '你有新的用户反馈需要处理' order by id desc;
+
+# create_store_id
+# 待办归属学校ID：取客服在创建任务时所选的学校字段
+# create_store_name
+# 待办归属学校名称：取客服在创建任务时所选的学校字段
+# store_id
+# 当前待办处理人学校ID：取待办人所属岗位架构上的学校，如果待办人有多个岗位，则选择与任务所属学校一致的学校。如果待办人所属多个岗位，并且没有一个学校与任务所属学校一致，则不选（如果不选与总部不一致，则以不选为准）或选总部
+# store_name
+# 当前待办处理人学校名称：同上
+# todo_deadline
+# 处理截止时间：任务处理截止时间

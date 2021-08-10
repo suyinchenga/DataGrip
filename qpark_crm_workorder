@@ -1,0 +1,47 @@
+# 1
+/*设置刚首次流转，任务首次流转的时候有通知，二次流转同一个人不通知，流转新人会通知，【命中规则： 更新时间落在定时触发时间的前1分钟内】
+  例子：当前时间是2021-07-21 14:44:01 设置2021-07-21 16:43:11，一分钟内执行触发脚本拉取过去一分钟的数据*/
+UPDATE task_handle_sub th SET th.updated_at = '2021-07-21 19:15:01' where task_id = '10183';
+# 2
+/*设置即将超时2小时，待处理即将超时的有，主管处理即将超时的有，待完成即将超时有 ------【命中规则： 截止时间落在在定时触发时间的后1分钟内】
+  例子：当前时间是2021-07-21 14:44:01 设置2021-07-21 16:45:01，一分钟内执行触发脚本*/
+UPDATE task_handle_sub th SET th.deadline_time = '2021-07-22 13:28:01' where task_id = '1848' and id = '10105';
+# 3
+/*设置超时的时候发出通知，任务处理超时有，主管处理超时有，任务待完成超时有------【命中规则： 截止时间落在定时触发时间的前1分钟内】
+  例子：当前时间是2021-07-21 14:44:59 设置2021-07-21 14:44:50，一分钟内执行触发脚本*/
+UPDATE task_handle_sub th SET th.deadline_time = '2021-07-22 14:25:01' where task_id = '1847' and id = '10109';
+# 4
+/*设置超时后每一小时发送钉钉，处理超时有，主管处理超时有，任务待完成超时有 ------【命中规则： 截止时间落在定时触发时间的后1分钟内】
+  例子：当前时间是2021-07-21 14:44:01，设置deadlinetime 2021-07-21 13:45:01 ，触发时间向上取整 满足59分钟，取整1h. 触发一次） */
+UPDATE task_handle_sub th SET th.deadline_time = '2021-07-22 13:27:01' where task_id = '1847' and id = '10109';
+# 5
+# 钉钉会拦截- 相同的内容不会重复发送-修改任务的创建时间即可
+/*更新任务的创建时间*/
+UPDATE task_handle_sub th SET th.created_at = '2021-07-20 12:35:26' where task_id = '1816';
+
+# 执行触发发送预警命令
+# /app/qpark.workorder.biz -a command -m feedback_conf_alert  -c /app/conf/.env
+select * from task_handle_sub ths where ths.task_id = '2059';
+
+select * from task_exts where task_id = '2082';
+
+update task_exts set deadline_time = '2021-08-06 20:16:01' where task_id = '2095';
+
+select * from tasks where feedback_id = '783'order by created_at desc;
+
+# 统计用户的反馈次数
+
+select * from task_handle_sub where task_id in (select id from tasks where user_mobile = '15505926257') and staff_id = '1574';
+
+update task_handle_sub set deleted_at = '2021-08-06 18:00:36' where task_id in (select id from tasks where user_mobile = '15505926257') and staff_id = '1574';
+# task_hand_record  删除子任务后 还需要删除这个表的记录
+
+select count(*) from task_handle_sub where task_id in (select id from tasks where user_id = '60522');
+
+select * from tasks where user_mobile = '15505926257';
+
+select count(*) from task_handle_sub;
+
+select * from task_handle_sub where task_id = '2102';
+
+select * from tasks where user_id = '60522';
